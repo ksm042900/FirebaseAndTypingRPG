@@ -88,9 +88,52 @@ ex)로그인 성공시 newPage() 함수를 호출하여 메인화면으로 이�
 
 
 ![로그인 화면 ㅇ](https://user-images.githubusercontent.com/90131881/210203802-b681b999-b2ba-4787-8e82-e4cca30944ef.PNG)
+![1241244](https://user-images.githubusercontent.com/90131881/210204043-6bd40e1a-040a-4a2a-9772-e7dff540b67d.PNG)
 
 ※주의할점
 해당 연동된 웹의 도메인을 파이어베이스 설정에서 등록을 해주어야 문제없이 구글로그인 팝업이 실행됨
+
+
+
+
+## 로그인 후 새로고침 및 다른 페이지에 접근해도 로그인이 유지되도록 어떻게 하는가
+해결방법: 사용자의 고유아이디인 uid에 대한 토큰 정보를 sesstion에 저장
+![세션](https://user-images.githubusercontent.com/90131881/210204213-7b55edcf-7bd4-40a0-a854-d30228213491.PNG)
+<pre><code>{
+ //세션에 유저 정보 저장
+  setPersistence(auth, browserSessionPersistence)
+  .then(() => {
+      // Existing and future Auth states are now persisted in the current
+      // session only. Closing the window would clear any existing state even
+      // if a user forgets to sign out.
+      // ...
+      // New sign-in will be persisted with session persistence.
+      return signInWithEmailAndPassword(auth, signInEmail, signInPassword);
+  })
+  .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+  });
+}</code></pre>
+
+참고: https://stackoverflow.com/ 
+
+![토큰](https://user-images.githubusercontent.com/90131881/210204408-493888c5-2fdd-411c-af70-75516753bedb.PNG)
+
+<pre><code>{
+//만약 로그인된 상태이면 아래 함수 호출
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+       // 현재 사용자가 로그인 상태일 경우
+    } else {
+       // 현재 사용자가 로그인 상태가 아닐 경우
+    }
+    });
+}</code></pre>
+
+위 코드를 사용하여 로그인 상태에 따른 웹의 ui 변경이 가능
+
 
 
 
