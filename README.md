@@ -137,6 +137,27 @@ ex)로그인 성공시 newPage() 함수를 호출하여 메인화면으로 이�
 
 #
 #
+#
+
+## 랭킹시스템 구현
+let name = [];
+let time = [];
+
+<pre><code>{
+firebase.database().ref('users/').orderByChild('time').limitToFirst(100).on('child_added',(data)=>{
+  if(data.val().time!=null){
+    name.push(data.val().name);
+    time.push(data.val().time);
+  }
+    ranker_1.innerHTML = name[0];  rankTime_1.innerHTML = time[0];
+    ranker_2.innerHTML = name[1];  rankTime_2.innerHTML = time[1];
+    ranker_3.innerHTML = name[2];  rankTime_3.innerHTML = time[2];
+    .
+    .
+    .
+    ranker_20.innerHTML = name[19];  rankTime_20.innerHTML = time[19];
+})
+}</code></pre>
 
 
 
