@@ -1,7 +1,7 @@
 # FirebaseAndTypingRPG
 Implement the login and ranking system by applying firebase to the typing RPG.
 
-저번 프로젝트에서 개발하였던 TypingSite인 "타이핑RPG"에 파이어베이스를 적용(연동)하여 로그인 및 랭킹 시스템을 구현한다.
+개인 프로젝트에서 개발하였던 TypingSite인 "타이핑RPG"에 파이어베이스를 적용(연동)하여 로그인 및 랭킹 시스템을 구현한다.
 
 ## Firebase
 -파이어베이스가 제공하는 데이터베이스 종류-
@@ -140,16 +140,16 @@ ex)로그인 성공시 newPage() 함수를 호출하여 메인화면으로 이�
 #
 
 ## 랭킹시스템 구현
-let name = [];
-let time = [];
-
 <pre><code>{
+let name = []; //데이터베이스로부터 읽어온 사용자 이름을 저장하기 위한 배열
+let time = []; //데이터베이스로부터 읽어온 사용자 클리어타임을 저장하기 위한 배열
+
 firebase.database().ref('users/').orderByChild('time').limitToFirst(100).on('child_added',(data)=>{
   if(data.val().time!=null){
     name.push(data.val().name);
     time.push(data.val().time);
   }
-    ranker_1.innerHTML = name[0];  rankTime_1.innerHTML = time[0];
+    ranker_1.innerHTML = name[0];  rankTime_1.innerHTML = time[0]; //저장된 각 배열의 값을 html에 출력
     ranker_2.innerHTML = name[1];  rankTime_2.innerHTML = time[1];
     ranker_3.innerHTML = name[2];  rankTime_3.innerHTML = time[2];
     .
@@ -158,6 +158,28 @@ firebase.database().ref('users/').orderByChild('time').limitToFirst(100).on('chi
     ranker_20.innerHTML = name[19];  rankTime_20.innerHTML = time[19];
 })
 }</code></pre>
+
+경로를 지정하고 속성값 time을 기준으로 오름차순 정렬을 한 뒤 처음부터 100개의 데이터를 가져온다.
+배열 name과 time 을 정의 후, 하나씩 읽어온 데이터를 순차적으로 배열에 push한다.
+
+  if(data.val().time!=null){
+    name.push(data.val().name);
+    time.push(data.val().time);
+  }
+  
+이때 그냥 배열에 데이터를 집어넣을 경우 'time' 기록이 없는 사용자까지 push하기 때문에 조건문을 추가하였다. 하지만 가장 큰 문제점이 발생.
+
+※문제점: orderByChild로 오름차순 정렬을 할 경우 time = null 또한 정렬이 되기 때문에 null값은 가장 작은 값으로 인식함
+
+ex)
+1위. time: null
+2위. time: 1:13
+3위. time: 1:56
+
+위 문제를 해결하기위해 회원가입과 동시에 time의 속성값을 null이 아니도록 초기화를 시켜야된다.
+
+(time="0:00" 으로 초기화할 경우 가장 작은 값으로 인식하기 때문에 처음 클리어타임을 time="99:99"로 초기화를 시켜주는 것이 오류가 없을 것이라고 예상이 됨)
+
 
 
 
