@@ -121,6 +121,7 @@ ex)로그인 성공시 newPage() 함수를 호출하여 메인화면으로 이�
 
 ![토큰](https://user-images.githubusercontent.com/90131881/210204408-493888c5-2fdd-411c-af70-75516753bedb.PNG)
 
+## 로그인 상태에 따른 UI변경
 <pre><code>{
 //만약 로그인된 상태이면 아래 함수 호출
   auth.onAuthStateChanged(function(user) {
@@ -134,6 +135,8 @@ ex)로그인 성공시 newPage() 함수를 호출하여 메인화면으로 이�
 
 위 코드를 사용하여 로그인 상태에 따른 웹의 ui 변경이 가능
 
+#
+#
 
 
 
