@@ -167,7 +167,12 @@ firebase.database().ref('users/').orderByChild('time').limitToFirst(100).on('chi
     time.push(data.val().time);
   }
   
-이때 그냥 배열에 데이터를 집어넣을 경우 'time' 기록이 없는 사용자까지 push하기 때문에 조건문을 추가하였다. 하지만 가장 큰 문제점이 발생.
+이때 그냥 배열에 데이터를 집어넣을 경우 'time' 기록이 없는 사용자까지 push하기 때문에 조건문을 추가하였다. 
+
+![랭킹](https://user-images.githubusercontent.com/90131881/210236745-d18f3b87-696f-4d5a-a1ad-d68672ded8a3.PNG)
+
+
+하지만 가장 큰 문제점이 발생.
 
 ※문제점: orderByChild로 오름차순 정렬을 할 경우 time = null 또한 정렬이 되기 때문에 null값은 가장 작은 값으로 인식함
 
