@@ -194,7 +194,7 @@ ex)
 
 우선 node.js에 Firebase SDK를 등록 후 추가적인 코드를 기입하여 기존 프로젝트의 realtimedatabase와 연동을 시킨다.
 
-<pre><code>{
+<pre><code>
 const admin = require("firebase-admin");
 const serviceAccount = require("./??.json"); // 비공개 키 파일 경로
 
@@ -226,7 +226,7 @@ exports.deleteAllQueenClearTimes = async () => {
   }
 };
   
-}</code></pre>
+</code></pre>
 위 Cloud Fution은 모든 유저의 'queenClearTime' 데이터를 초기화 시키는 함수이다.
 
 위와 같은 코드를 가진 node.js 파일을 Google의 Cloud Funtions에 배포를 한다.
