@@ -227,9 +227,9 @@ exports.deleteAllQueenClearTimes = async () => {
 };
   
 </code></pre>
-위 Cloud Fution은 모든 유저의 'queenClearTime' 데이터를 초기화 시키는 함수이다.
+위 내용은 모든 유저의 'queenClearTime' 데이터를 초기화 시키는 Cloud Function 이다.
 
-위와 같은 코드를 가진 node.js 파일을 Google의 Cloud Funtions에 배포를 한다.
+이후 node.js 파일을 Google의 Cloud Funtions에 배포를 한다.
 
 
 
