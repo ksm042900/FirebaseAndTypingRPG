@@ -185,6 +185,55 @@ ex)
 
 (time="0:00" 으로 초기화할 경우 가장 작은 값으로 인식하기 때문에 처음 클리어타임을 time="99:99"로 초기화를 시켜주는 것이 오류가 없을 것이라고 예상이 됨)
 
+---
+## 배치스케줄러 2023-07-27
+----
+매월 1일, 월요일, 오전 9시 이후 등의 정해진 시간이 되면 랭킹정보가 초기화 되는 시스템을 구현
+
+구현을 하기위해 Google Cloud Funtions와 Cloud Scheduler를 사용.
+
+우선 node.js에 Firebase SDK를 등록 후 추가적인 코드를 기입하여 기존 프로젝트의 realtimedatabase와 연동을 시킨다.
+
+<pre><code>{
+const admin = require("firebase-admin");
+const serviceAccount = require("./??.json"); // 비공개 키 파일 경로
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "", // Firebase 프로젝트의 데이터베이스 URL
+});
+
+// 모든 유저의 QueenClearTime 삭제
+exports.deleteAllQueenClearTimes = async () => {
+  try {
+    const db = admin.database();
+    const usersRef = db.ref("users");
+
+    // users 경로의 데이터 읽기
+    const snapshot = await usersRef.once("value");
+
+    // 각 사용자의 queenClearTime 필드 삭제
+    snapshot.forEach((userSnapshot) => {
+      const userRef = userSnapshot.ref;
+      userRef.child("cleartime").child("queenClearTime").remove();
+    });
+
+    console.log("All queenClearTime data deleted successfully.");
+    return "All queenClearTime data deleted successfully.";
+  } catch (error) {
+    console.error("Error deleting queenClearTime data:", error);
+    return "Error deleting queenClearTime data.";
+  }
+};
+  
+}</code></pre>
+위 Cloud Fution은 모든 유저의 'queenClearTime' 데이터를 초기화 시키는 함수이다.
+
+위와 같은 코드를 가진 node.js 파일을 Google의 Cloud Funtions에 배포를 한다.
+
+
+
+성공적으로 배포가 완료되면, Cloud Scheduler에 배포된 함수 URL을 등록하여 지정한 시간마다 실행되도록 한다.
 
 
 
